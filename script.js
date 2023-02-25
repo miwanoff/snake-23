@@ -11,4 +11,14 @@ class Block {
     this.col = col;
     this.row = row;
   }
+
+  drawSquare(color = "blue") {
+    let x = this.col * this.blockSize;
+    let y = this.row * this.blockSize;
+    this.context.fillStyle = color;
+    this.context.fillRect(x, y, this.blockSize, this.blockSize);
+  }
 }
+
+let sampleBlock = new Block(canvas, 20, 20);
+sampleBlock.drawSquare();
