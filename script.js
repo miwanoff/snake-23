@@ -43,8 +43,20 @@ class Apple {
     this.canvas = canvas;
   }
 
-  draw() {
+  //   draw() {
+  //     this.block.drawCircle("LimeGreen");
+  //   }
+
+  draw = function () {
     this.block.drawCircle("LimeGreen");
+  };
+
+  move() {
+    let widthInBlocks = this.canvas.width / this.block.blockSize;
+    let heightInBlocks = this.canvas.height / this.block.blockSize;
+    const randomCol = Math.floor(Math.random() * (widthInBlocks - 2)) + 1;
+    const randomRow = Math.floor(Math.random() * (heightInBlocks - 2)) + 1;
+    this.block = new Block(canvas, randomCol, randomRow);
   }
 }
 
