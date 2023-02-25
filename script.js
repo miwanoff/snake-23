@@ -60,6 +60,25 @@ class Apple {
   }
 }
 
+class Snake {
+  constructor(canvas) {
+    this.segments = [
+      new Block(canvas, 7, 5),
+      new Block(canvas, 6, 5),
+      new Block(canvas, 5, 5),
+    ];
+    this.canvas = canvas;
+    this.direction = "right";
+    this.nextDirection = "right";
+  }
+
+  draw = function () {
+    for (var i = 0; i < this.segments.length; i++) {
+      this.segments[i].drawSquare("Blue");
+    }
+  };
+}
+
 // let sampleBlock = new Block(canvas, 25, 30);
 // sampleBlock.drawSquare();
 
@@ -68,3 +87,6 @@ class Apple {
 
 let apple = new Apple(canvas);
 apple.draw();
+
+let snake = new Snake(canvas);
+snake.draw();
