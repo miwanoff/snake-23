@@ -82,7 +82,7 @@ class Snake {
     }
   };
 
-  move = function () {
+  move = function (apple, game) {
     let head = this.segments[0];
     let newHead;
     this.direction = this.nextDirection;
@@ -99,7 +99,9 @@ class Snake {
 
     if (this.checkCollision(newHead)) {
       // game Over
-      alert("Game over!");
+      game.gameOver(canvas);
+
+      // alert("Game over!");
       return;
     }
 
@@ -107,6 +109,7 @@ class Snake {
 
     if (newHead.equal(apple.block)) {
       // score++;
+      game.score++;
       apple.move();
     } else {
       this.segments.pop();
@@ -178,6 +181,46 @@ class Game {
       this.canvas.height
     );
   };
+
+  drawScore = function (blockSize = 10) {
+    this.context.font = "20px Courier";
+    this.context.fillStyle = "Black";
+    this.context.textAlign = "left";
+    this.context.textBaseline = "top";
+    this.context.fillText("Score: " + this.score, blockSize, blockSize);
+  };
+
+  gameOver = function (canvas) {
+    let context = canvas.getContext("2d");
+    clearInterval(this.intervalId);
+    context.font = "60px Courier";
+    context.fillStyle = "Black";
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.fillText("Game over!", canvas.width / 2, canvas.height / 2);
+  };
+
+  go() {
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.drawScore();
+    this.snake.move(this.apple, this);
+    this.snake.draw();
+    this.apple.draw();
+    this.drawBorder();
+  }
+
+  start() {
+    this.intervalId = setInterval(this.go.bind(this), 200);
+    // Задаємо оброблювач події keydown
+    addEventListener("keydown", (event) => {
+      let newDirection = this.directions[event.keyCode];
+      if (newDirection !== undefined) {
+        this.snake.setDirection(newDirection);
+      }
+    });
+  }
+
+  
 }
 
 // let sampleBlock = new Block(canvas, 25, 30);
@@ -192,7 +235,9 @@ class Game {
 // let snake = new Snake(canvas);
 // snake.draw();
 
-
+// let game = new Game(canvas);
+// game.drawBorder();
+// game.drawScore();
 
 let game = new Game(canvas);
-game.drawBorder();
+game.start();
