@@ -26,7 +26,6 @@ class Block {
     this.circle(centerX, centerY, this.blockSize / 2, true);
   }
 
-
   circle(x, y, radius, fillCircle) {
     this.context.beginPath();
     this.context.arc(x, y, radius, 0, Math.PI * 2, false);
@@ -38,12 +37,22 @@ class Block {
   }
 }
 
+class Apple {
+  constructor(canvas) {
+    this.block = new Block(canvas, 10, 10);
+    this.canvas = canvas;
+  }
 
+  draw() {
+    this.block.drawCircle("LimeGreen");
+  }
+}
 
+// let sampleBlock = new Block(canvas, 25, 30);
+// sampleBlock.drawSquare();
 
-let sampleBlock = new Block(canvas, 25, 30);
-sampleBlock.drawSquare();
+// let sampleCircleBlock = new Block(canvas, 25, 30);
+// sampleCircleBlock.drawCircle();
 
-let sampleCircleBlock = new Block(canvas, 25, 30);
-sampleCircleBlock.drawCircle();
-
+let apple = new Apple(canvas);
+apple.draw();
