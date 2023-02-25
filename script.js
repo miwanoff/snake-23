@@ -77,6 +77,25 @@ class Snake {
       this.segments[i].drawSquare("Blue");
     }
   };
+
+  move = function () {
+    let head = this.segments[0];
+    let newHead;
+    this.direction = this.nextDirection;
+
+    if (this.direction === "right") {
+      newHead = new Block(canvas, head.col + 1, head.row);
+    } else if (this.direction === "down") {
+      newHead = new Block(canvas, head.col, head.row + 1);
+    } else if (this.direction === "left") {
+      newHead = new Block(canvas, head.col - 1, head.row);
+    } else if (this.direction === "up") {
+      newHead = new Block(canvas, head.col, head.row - 1);
+    }
+    this.segments.unshift(newHead);
+
+    this.segments.pop();
+  };
 }
 
 // let sampleBlock = new Block(canvas, 25, 30);
