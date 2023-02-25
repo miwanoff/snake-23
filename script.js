@@ -18,7 +18,32 @@ class Block {
     this.context.fillStyle = color;
     this.context.fillRect(x, y, this.blockSize, this.blockSize);
   }
+
+  drawCircle(color = "lime") {
+    let centerX = this.col * this.blockSize + this.blockSize / 2;
+    let centerY = this.row * this.blockSize + this.blockSize / 2;
+    this.context.fillStyle = color;
+    this.circle(centerX, centerY, this.blockSize / 2, true);
+  }
+
+
+  circle(x, y, radius, fillCircle) {
+    this.context.beginPath();
+    this.context.arc(x, y, radius, 0, Math.PI * 2, false);
+    if (fillCircle) {
+      this.context.fill();
+    } else {
+      this.context.stroke();
+    }
+  }
 }
 
-let sampleBlock = new Block(canvas, 20, 20);
+
+
+
+let sampleBlock = new Block(canvas, 25, 30);
 sampleBlock.drawSquare();
+
+let sampleCircleBlock = new Block(canvas, 25, 30);
+sampleCircleBlock.drawCircle();
+
