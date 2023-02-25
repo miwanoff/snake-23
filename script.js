@@ -72,8 +72,8 @@ class Snake {
       new Block(canvas, 5, 5),
     ];
     this.canvas = canvas;
-    this.direction = "up";
-    this.nextDirection = "up";
+    this.direction = "right";
+    this.nextDirection = "right";
   }
 
   draw = function () {
@@ -130,6 +130,54 @@ class Snake {
     }
     return wallCollision || selfCollision;
   };
+
+  setDirection = function (newDirection) {
+    if (this.direction === "up" && newDirection === "down") {
+      return;
+    } else if (this.direction === "right" && newDirection === "left") {
+      return;
+    } else if (this.direction === "down" && newDirection === "up") {
+      return;
+    } else if (this.direction === "left" && newDirection === "right") {
+      return;
+    }
+    this.nextDirection = newDirection;
+  };
+}
+
+class Game {
+  intervalId;
+  constructor(canvas) {
+    this.context = canvas.getContext("2d");
+    this.canvas = canvas;
+    this.score = 0;
+    this.directions = {
+      37: "left",
+      38: "up",
+      39: "right",
+      40: "down",
+    };
+    this.apple = new Apple(canvas);
+    this.snake = new Snake(canvas);
+  }
+
+  drawBorder = function (blockSize = 10) {
+    this.context.fillStyle = "Gray";
+    this.context.fillRect(0, 0, this.canvas.width, blockSize);
+    this.context.fillRect(
+      0,
+      this.canvas.height - blockSize,
+      this.canvas.width,
+      blockSize
+    );
+    this.context.fillRect(0, 0, blockSize, this.canvas.height);
+    this.context.fillRect(
+      this.canvas.width - blockSize,
+      0,
+      blockSize,
+      this.canvas.height
+    );
+  };
 }
 
 // let sampleBlock = new Block(canvas, 25, 30);
@@ -138,8 +186,13 @@ class Snake {
 // let sampleCircleBlock = new Block(canvas, 25, 30);
 // sampleCircleBlock.drawCircle();
 
-let apple = new Apple(canvas);
-apple.draw();
+// let apple = new Apple(canvas);
+// apple.draw();
 
-let snake = new Snake(canvas);
-snake.draw();
+// let snake = new Snake(canvas);
+// snake.draw();
+
+
+
+let game = new Game(canvas);
+game.drawBorder();
