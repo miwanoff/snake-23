@@ -35,6 +35,10 @@ class Block {
       this.context.stroke();
     }
   }
+
+  equal = function (otherBlock) {
+    return this.col === otherBlock.col && this.row === otherBlock.row;
+  };
 }
 
 class Apple {
@@ -68,8 +72,8 @@ class Snake {
       new Block(canvas, 5, 5),
     ];
     this.canvas = canvas;
-    this.direction = "right";
-    this.nextDirection = "right";
+    this.direction = "up";
+    this.nextDirection = "up";
   }
 
   draw = function () {
@@ -92,9 +96,39 @@ class Snake {
     } else if (this.direction === "up") {
       newHead = new Block(canvas, head.col, head.row - 1);
     }
+
+    if (this.checkCollision(newHead)) {
+      // game Over
+      alert("Game over!");
+      return;
+    }
+
     this.segments.unshift(newHead);
 
-    this.segments.pop();
+    if (newHead.equal(apple.block)) {
+      // score++;
+      apple.move();
+    } else {
+      this.segments.pop();
+    }
+  };
+
+  checkCollision = function (head) {
+    let widthInBlocks = this.canvas.width / head.blockSize;
+    let heightInBlocks = this.canvas.height / head.blockSize;
+    let leftCollision = head.col === 0;
+    let topCollision = head.row === 0;
+    let rightCollision = head.col === widthInBlocks - 1;
+    let bottomCollision = head.row === heightInBlocks - 1;
+    let wallCollision =
+      leftCollision || topCollision || rightCollision || bottomCollision;
+    let selfCollision = false;
+    for (let i = 0; i < this.segments.length; i++) {
+      if (head.equal(this.segments[i])) {
+        selfCollision = true;
+      }
+    }
+    return wallCollision || selfCollision;
   };
 }
 
